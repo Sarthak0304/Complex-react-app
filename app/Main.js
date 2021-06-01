@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Axios from "axios";
-Axios.defaults.baseURL = "http://localhost:8080";
+Axios.defaults.baseURL = process.env.BACKENDURL || "https://complex-react-app-sarthak0304.herokuapp.com";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -16,7 +16,7 @@ import ViewSinglePost from "./components/ViewSinglePost";
 import FlashMessages from "./components/FlashMessages";
 import Profile from "./components/Profile";
 
-import {useImmerReducer} from 'use-immer';
+import { useImmerReducer } from "use-immer";
 
 import StateContext from "./StateContext";
 import DispatchContext from "./DispatchContext";
@@ -35,16 +35,16 @@ function Main() {
   function ourReducer(draft, action) {
     switch (action.type) {
       case "login":
-        draft.loggedIn = true
-        draft.user = action.data
-        return
+        draft.loggedIn = true;
+        draft.user = action.data;
+        return;
       case "logout":
-        draft.loggedIn = false
-        return
+        draft.loggedIn = false;
+        return;
       case "flashMessage":
         //{console.log("in main.js switch case");
         draft.flashMessages.push(action.value);
-        return
+        return;
     }
   }
   const [state, dispatch] = useImmerReducer(ourReducer, initialState);
@@ -73,7 +73,7 @@ function Main() {
           <FlashMessages messages={state.flashMessages} />
           <Header />
           <Switch>
-            <Route path='/profile/:username'>
+            <Route path="/profile/:username">
               <Profile />
             </Route>
             <Route path="/" exact>
